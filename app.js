@@ -1,23 +1,14 @@
-const galleryContainer = document.getElementById("gallery-container");
-let scrollAmount = 0;
-let scrollInterval;
+const gallery = document.querySelector('.gallery');
+const galleryWidth = gallery.offsetWidth;
+const images = gallery.querySelectorAll('img');
+let totalWidth = 0;
 
-function startScroll() {
-  scrollInterval = setInterval(function() {
-    galleryContainer.scrollLeft = scrollAmount;
-    scrollAmount += 5;
-    if(scrollAmount >= galleryContainer.scrollWidth - galleryContainer.offsetWidth) {
-      window.clearInterval(scrollInterval);
+images.forEach(image => {
+  totalWidth += image.offsetWidth;
+  image.addEventListener('load', () => {
+    totalWidth += image.offsetWidth;
+    if (totalWidth > galleryWidth) {
+      gallery.style.width = totalWidth + 'px';
     }
-  }, 20);
-}
-
-galleryContainer.addEventListener("mouseenter", function() {
-  window.clearInterval(scrollInterval);
+  });
 });
-
-galleryContainer.addEventListener("mouseleave", function() {
-  startScroll();
-});
-
-startScroll();
